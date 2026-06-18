@@ -63,7 +63,6 @@
     <div class="list-card">
         <div class="list-card-header">
             <span class="list-card-title">📢 最新公告</span>
-            <a href="${pageContext.request.contextPath}/notice/list" class="btn btn-sm">查看全部</a>
         </div>
         <div class="list-card-body">
             <c:forEach items="${notices}" var="n" end="4">
@@ -100,7 +99,6 @@
         <div class="list-card">
             <div class="list-card-header">
                 <span class="list-card-title">🔧 最新报修</span>
-                <a href="${pageContext.request.contextPath}/repair/list" class="btn btn-sm">查看全部</a>
             </div>
             <div class="list-card-body">
                 <c:forEach items="${repairs}" var="r" end="4">

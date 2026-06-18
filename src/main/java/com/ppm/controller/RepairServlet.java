@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -37,6 +38,12 @@ public class RepairServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String pathInfo = req.getPathInfo();
         if (pathInfo == null) pathInfo = "/list";
+        HttpSession session = req.getSession(false);
+
+        User loginUser = null;
+        if (session != null) {
+            loginUser = (User) session.getAttribute("loginUser");
+        }
         try {
             switch (pathInfo) {
                 case "/list":
@@ -50,6 +57,10 @@ public class RepairServlet extends HttpServlet {
                     req.getRequestDispatcher(Constants.WEB_PREFIX + "repair/form.jsp").forward(req, resp);
                     break;
                 case "/assign":
+                    if (loginUser != null && loginUser.getJobType() != 1) {
+                        resp.sendError(403, "没有访问权限");
+                        return;
+                    }
                     Long assignId = Long.parseLong(req.getParameter("id"));
                     Repair repair = repairService.findById(assignId);
                     List<User> workers = userService.findByJobType(3);
@@ -59,10 +70,24 @@ public class RepairServlet extends HttpServlet {
                     break;
                 case "/complete":
                     Long completeId = Long.parseLong(req.getParameter("id"));
+                    Repair completeRepair = repairService.findById(completeId);
+                    if (loginUser.getJobType() == 3) {
+                        if (completeRepair == null || !loginUser.getId().equals(completeRepair.getWorkerId())) {
+                            resp.sendError(403, "没有访问权限");
+                            return;
+                        }
+                    } else if (loginUser.getJobType() != 1) {
+                        resp.sendError(403, "没有访问权限");
+                        return;
+                    }
                     repairService.completeRepair(completeId);
                     resp.sendRedirect(req.getContextPath() + "/repair/list");
                     break;
                 case "/delete":
+                    if (loginUser.getJobType() != 1) {
+                        resp.sendError(403, "没有访问权限");
+                        return;
+                    }
                     Long deleteId = Long.parseLong(req.getParameter("id"));
                     repairService.deleteById(deleteId);
                     resp.sendRedirect(req.getContextPath() + "/repair/list");
@@ -90,6 +115,11 @@ public class RepairServlet extends HttpServlet {
                 repairService.insert(repair);
                 resp.sendRedirect(req.getContextPath() + "/repair/list");
             } else if ("/assign".equals(pathInfo)) {
+                User postUser = (User) req.getSession().getAttribute("loginUser");
+                if (postUser == null || postUser.getJobType() != 1) {
+                    resp.sendError(403, "没有访问权限");
+                    return;
+                }
                 Long repairId = Long.parseLong(req.getParameter("id"));
                 Long workerId = Long.parseLong(req.getParameter("workerId"));
                 repairService.assignWorker(repairId, workerId);

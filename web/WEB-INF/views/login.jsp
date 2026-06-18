@@ -139,12 +139,11 @@
         errorMessage = "请先登录";
     }
 
-    String username = "";
 %>
 <div class="login-box">
     <div class="login-header">
         <h1>物业管理系统</h1>
-        <p>请登录您的账户</p>
+        <p>Property Management System</p>
     </div>
     <div class="login-body">
         <% if (errorMessage != null) { %>
@@ -154,7 +153,7 @@
         <form action="<%= request.getContextPath() %>/login" method="post">
             <div class="form-group">
                 <label for="username">用户名</label>
-                <input type="text" id="username" name="username" value="<%= username %>" placeholder="请输入用户名" required>
+                <input type="text" id="username" name="username" placeholder="请输入用户名" required>
             </div>
             <div class="form-group">
                 <label for="password">密码</label>

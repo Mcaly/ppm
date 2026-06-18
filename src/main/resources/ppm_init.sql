@@ -2,7 +2,7 @@
 CREATE TABLE `user` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
   `username` varchar(50) NOT NULL COMMENT '登录账号',
-  `password` varchar(100) NOT NULL COMMENT '加密密码',
+  `password` varchar(100) NOT NULL COMMENT '密码',
   `real_name` varchar(20) NOT NULL COMMENT '姓名',
   `phone` varchar(11) DEFAULT NULL COMMENT '手机号',
   `job_type` tinyint NOT NULL DEFAULT 1 COMMENT '1管理员 2收费员 3维修师傅',
@@ -13,7 +13,19 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_username` (`username`)
 ) COMMENT '物业员工';
-
+INSERT INTO `user` (
+    `username`,
+    `password`,
+    `real_name`,
+    `phone`,
+    `job_type`,
+    `status`,
+    `is_delete`
+) VALUES
+      ('1', '1', '管理员', '18888888888', 1, 1, 0),
+      ('2', '2', '收费员', '18888888888', 2, 1, 0),
+      ('3', '3', '维修师傅', '18888888888', 3, 1, 0),
+      ('4', '4', '保安', '18888888888', 4, 1, 0);
 
 
 -- 楼栋表

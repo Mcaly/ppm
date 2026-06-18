@@ -31,13 +31,20 @@
                 </c:choose>
             </td>
             <td>
-                <c:if test="${r.repairStatus == 0}">
-                    <a href="${pageContext.request.contextPath}/repair/assign?id=${r.id}" class="btn btn-sm btn-primary">派单</a>
+                <%-- 管理员：显示全部按钮 --%>
+                <c:if test="${loginUser.jobType == 1}">
+                    <c:if test="${r.repairStatus == 0}">
+                        <a href="${pageContext.request.contextPath}/repair/assign?id=${r.id}" class="btn btn-sm btn-primary">派单</a>
+                    </c:if>
+                    <c:if test="${r.repairStatus == 1}">
+                        <a href="${pageContext.request.contextPath}/repair/complete?id=${r.id}" class="btn btn-sm btn-primary" onclick="return confirm('确认完工？')">完工</a>
+                    </c:if>
+                    <a href="${pageContext.request.contextPath}/repair/delete?id=${r.id}" class="btn btn-sm btn-danger" onclick="return confirm('确定删除？')">删除</a>
                 </c:if>
-                <c:if test="${r.repairStatus == 1}">
+                <%-- 维修师傅：只在自己的工单且维修中时显示完工按钮 --%>
+                <c:if test="${loginUser.jobType == 3 && r.repairStatus == 1 && r.workerId == loginUser.id}">
                     <a href="${pageContext.request.contextPath}/repair/complete?id=${r.id}" class="btn btn-sm btn-primary" onclick="return confirm('确认完工？')">完工</a>
                 </c:if>
-                <a href="${pageContext.request.contextPath}/repair/delete?id=${r.id}" class="btn btn-sm btn-danger" onclick="return confirm('确定删除？')">删除</a>
             </td>
         </tr>
         </c:forEach>

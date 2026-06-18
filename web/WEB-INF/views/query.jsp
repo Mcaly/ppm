@@ -54,7 +54,7 @@
 </head>
 <body>
 <div class="top-bar">
-    <h1>🏠 物业管理系统 — 业主自助查询</h1>
+    <h1>物业管理系统 — 业主自助查询</h1>
     <a href="<%= request.getContextPath() %>/login">员工登录</a>
 </div>
 <div class="container">
