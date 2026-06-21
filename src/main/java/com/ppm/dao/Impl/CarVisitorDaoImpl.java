@@ -27,13 +27,17 @@ public class CarVisitorDaoImpl implements CarVisitorDao {
         if (map.containsKey("house_no")) {
             cv.setHouseNo((String) map.get("house_no"));
         }
+        if (map.containsKey("build_name")) {
+            cv.setBuildName((String) map.get("build_name"));
+        }
         return cv;
     }
 
     @Override
     public List<CarVisitor> findAll() throws SQLException {
-        String sql = "SELECT c.*, h.house_no FROM car_visitor c " +
+        String sql = "SELECT c.*, h.house_no, b.build_name FROM car_visitor c " +
                 "LEFT JOIN house h ON c.house_id = h.id " +
+                "LEFT JOIN building b ON h.build_id = b.id " +
                 "WHERE c.is_delete = 0 ORDER BY c.id DESC";
         List<Map<String, Object>> maps = DBUtil.executeQuery(sql);
         List<CarVisitor> list = new ArrayList<>();
@@ -45,8 +49,9 @@ public class CarVisitorDaoImpl implements CarVisitorDao {
 
     @Override
     public List<CarVisitor> findNotOut() throws SQLException {
-        String sql = "SELECT c.*, h.house_no FROM car_visitor c " +
+        String sql = "SELECT c.*, h.house_no, b.build_name FROM car_visitor c " +
                 "LEFT JOIN house h ON c.house_id = h.id " +
+                "LEFT JOIN building b ON h.build_id = b.id " +
                 "WHERE c.out_time IS NULL AND c.is_delete = 0 ORDER BY c.id DESC";
         List<Map<String, Object>> maps = DBUtil.executeQuery(sql);
         List<CarVisitor> list = new ArrayList<>();
@@ -58,8 +63,9 @@ public class CarVisitorDaoImpl implements CarVisitorDao {
 
     @Override
     public CarVisitor findById(Long id) throws SQLException {
-        String sql = "SELECT c.*, h.house_no FROM car_visitor c " +
+        String sql = "SELECT c.*, h.house_no, b.build_name FROM car_visitor c " +
                 "LEFT JOIN house h ON c.house_id = h.id " +
+                "LEFT JOIN building b ON h.build_id = b.id " +
                 "WHERE c.id = ? AND c.is_delete = 0";
         List<Map<String, Object>> maps = DBUtil.executeQuery(sql, id);
         return maps.isEmpty() ? null : mapToEntity(maps.get(0));

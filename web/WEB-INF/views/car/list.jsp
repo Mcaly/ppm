@@ -21,7 +21,7 @@
             <td>${cv.id}</td>
             <td>${cv.visitorName}</td>
             <td>${cv.plateNum}</td>
-            <td>${cv.houseId}</td>
+            <td>${cv.buildName} ${cv.houseNo}</td>
             <td>${cv.inTime}</td>
             <td>${cv.outTime}</td>
             <td>

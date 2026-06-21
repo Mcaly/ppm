@@ -11,7 +11,7 @@
     </div>
     <div class="form-group">
         <label>车牌号</label>
-        <input type="text" name="plateNum" placeholder="如：京A12345">
+        <input type="text" name="plateNum" required placeholder="如：京A12345">
     </div>
     <div class="form-group">
         <label>拜访房屋（可选）</label>

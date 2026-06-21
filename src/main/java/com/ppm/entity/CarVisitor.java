@@ -16,6 +16,7 @@ public class CarVisitor {
 
     // 联表查询用
     private String houseNo;
+    private String buildName;
 
     public CarVisitor() {}
 
@@ -39,6 +40,8 @@ public class CarVisitor {
     public void setCreateTime(String createTime) { this.createTime = createTime; }
     public String getHouseNo() { return houseNo; }
     public void setHouseNo(String houseNo) { this.houseNo = houseNo; }
+    public String getBuildName() { return buildName; }
+    public void setBuildName(String buildName) { this.buildName = buildName; }
 
     @Override
     public String toString() {
